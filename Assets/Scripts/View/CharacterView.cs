@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 
+<<<<<<< HEAD
 public class CharacterModel
 {
     public GameController controller;   // ゲームコントローラークラスの参照変数
    
 }
+=======
+
+>>>>>>> 611a35310998388a0e33ad53c83ba6f01b3f7dfd
 
 public class CharacterView : MonoBehaviour
 {

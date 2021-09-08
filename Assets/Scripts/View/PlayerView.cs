@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 
+<<<<<<< HEAD
 public class PlayerModel : CharacterModel
 {
 
@@ -12,70 +13,29 @@ public class PlayerModel : CharacterModel
     public const float MoveWaitTime = 0f;
     private float waitTime = 0.2f;
     private float countTime;
+=======
+>>>>>>> 611a35310998388a0e33ad53c83ba6f01b3f7dfd
 
-
-    // コンストラクタ
-    public PlayerModel(GameController controller, PlayerView view)
-    {
-        this.controller = controller;
-        this.view = view;
-        this.view.Init(this);
-    }
-
-    public void Init()
-    {
-
-    }
-
-    // 更新処理
-    public void Update()
-    {
-        countTime += Time.unscaledDeltaTime;
-        // マウスが押された時、プレイヤー側の攻撃として実行する
-        if (Input.GetMouseButton(0) && countTime > waitTime)
-        {
-            var taskShot = new TaskManager.Task(ShotWaitTime, Shot, TaskManager.Task.Type.Time);
-            this.controller.TaskManager.Add(taskShot);
-            countTime = 0;
-        }
-
-    }
-
-    public void Shot()
-    {
-        GameObject shell = view.CreateShell();
-        shell.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, shellSpeed);
-    }
-
-    public void Move(Transform transform)
-    {
-        float xVelocity = Input.GetAxis("Horizontal") * playerSpeed;
-        float zVelocity = Input.GetAxis("Vertical") * playerSpeed;
-
-        // xVelocity = xVelocity > zVelocity ? xVelocity : 0;
-
-        transform.position += new Vector3(xVelocity, 0, zVelocity);
-    }
-
-
-
-    // 敗北処理
-    public void Lose()
-    {
-        view.Lose();
-    }
-}
 public class PlayerView : CharacterView
 {
     PlayerModel model;
+    GameController controller;
 
-
-    public void Init(PlayerModel model)
+    public void Init(GameController controller, PlayerModel model)
     {
-        // PlayerModelの参照を入れる
         this.model = model;
-        // CharacterView初期化
+        this.controller = controller;
         this.Init();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+        {
+            //   var taskMove = new TaskManager.Task(PlayerModel.MoveWaitTime, Move, TaskManager.Task.Type.Time);
+            //   this.controller.TaskManager.Add(taskMove);
+            Move();
+        }
     }
 
     public override GameObject CreateShell()
@@ -84,5 +44,12 @@ public class PlayerView : CharacterView
         return shell;
     }
 
+    public void Move()
+    {
 
+        float xVelocity = Input.GetAxis("Horizontal") * model.playerSpeed * Time.deltaTime;
+        float zVelocity = Input.GetAxis("Vertical") * model.playerSpeed * Time.deltaTime;
+        Debug.Log("xVelocity" + xVelocity);
+        transform.position += new Vector3(xVelocity, 0, zVelocity);
+    }
 }
