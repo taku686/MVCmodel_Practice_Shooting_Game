@@ -50,8 +50,6 @@ public class GameController : BaseController
         // 合図を出す時間（3秒～5秒の間をランダム）
         executionTime = 3.0f + Random.Range(0.0f, 2.0f);
 
-        // Modelクラスを初期化
-        playerModel = new PlayerModel(this, playerView);
         //  enemyModel = new EnemyModel(this, enemyView);
 
         // UIキャンバスの初期化
@@ -63,7 +61,12 @@ public class GameController : BaseController
         // 実行した側をリセット
         isExecution = Execution.None;
 
-        Instantiate(playerObj, initPos, Quaternion.identity);
+        GameObject playerObj = Instantiate(this.playerObj, initPos, Quaternion.identity);
+        playerModel = playerObj.GetComponent<PlayerModel>();
+        playerView = playerObj.GetComponent<PlayerView>();
+        Debug.Log("PlayerModel" + playerModel == null);
+        Debug.Log("PlayerView" + playerView == null);
+        playerModel.Init(this, playerView);
 
         // このInit処理で発生したGCを開放（ゲーム中のカクつきを防止）
         System.GC.Collect();
