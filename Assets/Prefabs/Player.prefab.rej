@@ -1,0 +1,9 @@
+diff a/Assets/Prefabs/Player.prefab b/Assets/Prefabs/Player.prefab	(rejected hunks)
+@@ -30,7 +30,6 @@
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 3495703822754179643}
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: 0, y: 1, z: 0}
+   m_LocalPosition: {x: 1844.5835, y: 1, z: -438.5561}
+   m_LocalScale: {x: 2, y: 2, z: 2}
+   m_Children:
