@@ -3,7 +3,7 @@
 public class CharacterModel
 {
     public GameController controller;   // ゲームコントローラークラスの参照変数
-
+   
 }
 
 public class CharacterView : MonoBehaviour
@@ -16,7 +16,7 @@ public class CharacterView : MonoBehaviour
     public Transform shotPos;
     [HideInInspector]
     public Collider charaCollider;
-
+ 
     public void Init()
     {
         // ヒットエフェクトを非表示

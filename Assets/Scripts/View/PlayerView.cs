@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerModel : CharacterModel
 {
 
-
+    
     PlayerView view;    // プレイヤービュークラスの参照変数
     public int shellSpeed = 10;
     public int playerSpeed = 10;
