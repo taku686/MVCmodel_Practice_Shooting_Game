@@ -4,6 +4,8 @@ using UnityEngine;
 <<<<<<< HEAD
 public class PlayerModel : CharacterModel
 {
+    PlayerModel model;
+    GameController controller;
 
     
     PlayerView view;    // プレイヤービュークラスの参照変数
