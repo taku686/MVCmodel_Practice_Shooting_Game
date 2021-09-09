@@ -2,6 +2,7 @@
 
 public class CharacterModel : MonoBehaviour
 {
-    public GameController controller;   // ゲームコントローラークラスの参照変数
-
+    [SerializeField]
+    public Transform shotPos;
+    public ShellController shellController;
 }

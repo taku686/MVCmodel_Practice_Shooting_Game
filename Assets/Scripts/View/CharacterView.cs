@@ -6,10 +6,6 @@ public class CharacterView : MonoBehaviour
 {
     [SerializeField]
     public GameObject HitEffect;    // ヒットエフェクト
-    [SerializeField]
-    public GameObject shellObj;
-    [SerializeField]
-    public Transform shotPos;
     [HideInInspector]
     public Collider charaCollider;
  
@@ -19,11 +15,6 @@ public class CharacterView : MonoBehaviour
         //  HitEffect.gameObject.SetActive(false);
         charaCollider = GetComponent<Collider>();
         charaCollider.isTrigger = true;
-    }
-
-    public virtual GameObject CreateShell()
-    {
-        return Instantiate(shellObj, shotPos.position, transform.rotation);
     }
 
     // 勝利時

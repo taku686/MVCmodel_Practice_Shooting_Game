@@ -10,6 +10,7 @@ public class BaseController : MonoBehaviour
 
     void Awake()
     {
+        Application.targetFrameRate = 60;
         // シーンの最初に呼ばれます。
         Init();
     }
@@ -26,9 +27,7 @@ public class BaseController : MonoBehaviour
     /// </summary>
     public virtual void Init()
     {
-        // 60FPSに設定
-        Application.targetFrameRate = 60;
-
+        Debug.Log("初期化");
         taskManager = new TaskManager();
     }
 
@@ -68,17 +67,20 @@ public class TaskManager
 
         // 各クラスから登録される実行関数
         public Action Action;
+        public Func<object> objectFuncion; //  使い方がよくわからない
 
         Type type;      // 実行タイプ 
+        
         int runFlame;   // 実行フレーム数
         int coutFlame;  // フレームカウント
         float runTime;  // 実行時間
         float coutTime; // 時間カウント
 
         public bool IsAction;   // 実行するか判定
+        public bool IsFunction;
         public bool IsRemove;   // タスクを破棄するか判定
 
-
+        
         public Task(float time, Action action, Type type = Type.Time)
         {
             this.Action = action;
@@ -96,6 +98,25 @@ public class TaskManager
             this.type = type;
             DataInit();
         }
+        
+        public Task(float time, Func<object> func, Type type = Type.Time)
+        {
+            this.objectFuncion = func;
+            this.runFlame = 0;
+            this.runTime = time;
+            this.type = type;
+            DataInit();
+        }
+
+        public Task(int flame, Func<object> func, Type type = Type.Flame)
+        {
+            this.objectFuncion = func;
+            this.runFlame = flame;
+            this.runTime = 0f;
+            this.type = type;
+            DataInit();
+        }
+       
 
         void DataInit()
         {
@@ -116,6 +137,7 @@ public class TaskManager
                     if (this.coutFlame >= this.runFlame)
                     {
                         this.IsAction = true;
+                        this.IsFunction = true;
                         this.IsRemove = true;
                     }
                     break;
@@ -125,12 +147,14 @@ public class TaskManager
                     if (this.coutTime >= this.runTime)
                     {
                         this.IsAction = true;
+                        this.IsFunction = true;
                         this.IsRemove = true;
                     }
                     break;
                 // 指定フレームが過ぎるまで実行し続ける
                 case Type.LoopFlame:
                     this.IsAction = true;
+                    this.IsFunction = true;
                     this.coutFlame += addFlame;
                     if (this.coutFlame >= this.runFlame)
                     {
@@ -140,6 +164,7 @@ public class TaskManager
                 // 指定時間が過ぎるまで実行し続ける
                 case Type.LoopTime:
                     this.IsAction = true;
+                    this.IsFunction = true;
                     this.coutTime += addTime;
                     if (this.coutTime >= this.runTime)
                     {
@@ -149,9 +174,13 @@ public class TaskManager
             }
 
             // 実行フラグが立っていれば実行する
-            if (IsAction)
+            if (IsAction&&Action != null)
             {
                 Action();
+            }
+            if (IsFunction && objectFuncion != null)
+            {
+                objectFuncion();
             }
         }
     }

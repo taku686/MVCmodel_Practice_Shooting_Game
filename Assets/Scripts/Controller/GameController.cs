@@ -22,19 +22,23 @@ public class GameController : BaseController
 
     bool isGameSet { get { return isExecution == GameController.Execution.None; } }     // 決着がついたかどうか
 
-    PlayerModel playerModel;    // プレイヤーモデル
-    EnemyModel enemyModel;     // エネミーモデル
+    private PlayerModel playerModel;    // プレイヤーモデル
+    private EnemyModel enemyModel;     // エネミーモデル
 
     [SerializeField]
-    PlayerView playerView;     // プレイヤーオブジェクト
+    private PlayerView playerView;     // プレイヤーオブジェクト
     [SerializeField]
-    EnemyView enemyView;      // エネミーオブジェクト
+    private EnemyView enemyView;      // エネミーオブジェクト
     [SerializeField]
-    CanvasView canvasView;     // UIのキャンバス
+    private CanvasView canvasView;     // UIのキャンバス
     [SerializeField]
-    CameraView cameraView;     // カメラオブジェクト
+    private CameraView cameraView;     // カメラオブジェクト
     [SerializeField]
-    GameObject playerObj;
+    private GameObject playerObj;
+   
+    private ShellController shellController;
+    
+    private EnemyCreateController enemyCreateController;
 
     private Vector3 initPos = new Vector3(0, 1, -9);
 
@@ -50,8 +54,6 @@ public class GameController : BaseController
         // 合図を出す時間（3秒～5秒の間をランダム）
         executionTime = 3.0f + Random.Range(0.0f, 2.0f);
 
-        //  enemyModel = new EnemyModel(this, enemyView);
-
         // UIキャンバスの初期化
         //canvasView.Init(this, executionTime);
 
@@ -62,11 +64,11 @@ public class GameController : BaseController
         isExecution = Execution.None;
 
         GameObject playerObj = Instantiate(this.playerObj, initPos, Quaternion.identity);
+        shellController = GameObject.FindGameObjectWithTag("ShellController").GetComponent<ShellController>();
+        enemyCreateController = GameObject.FindGameObjectWithTag("EnemyCreateController").GetComponent<EnemyCreateController>();
         playerModel = playerObj.GetComponent<PlayerModel>();
         playerView = playerObj.GetComponent<PlayerView>();
-        Debug.Log("PlayerModel" + playerModel == null);
-        Debug.Log("PlayerView" + playerView == null);
-        playerModel.Init(this, playerView);
+        playerModel.Init(this, playerView, shellController);
 
         // このInit処理で発生したGCを開放（ゲーム中のカクつきを防止）
         System.GC.Collect();

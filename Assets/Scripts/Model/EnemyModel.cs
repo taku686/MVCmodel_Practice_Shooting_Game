@@ -1,16 +1,35 @@
-﻿public class EnemyModel : CharacterModel
+﻿using UnityEngine;
+using System.Linq;
+
+public class EnemyModel : CharacterModel
 {
-    EnemyView view;
+    public const float MoveWaitTime = 0f;
+    private EnemyCreateController enemyCreateController;
+   
 
-    public EnemyModel(GameController controller, EnemyView view)
+    public void Init(EnemyCreateController enemyCreateController)
     {
-        this.controller = controller;
-        this.view = view;
+        //this.gameController = gameController;
+        this.shellController = GameObject.FindGameObjectWithTag("ShellController").GetComponent<ShellController>();
+        this.enemyCreateController = enemyCreateController;
     }
 
-    public void Update()
+    public void Move(Vector3 moveSpeed,Transform enemyTransform)
     {
-        // 更新処理があればこちらに記載します。
-        // 本書では何もありませんが、関数を用意しました。
+       
+            float xVelocity = moveSpeed.x * Time.deltaTime;
+            float zVelocity = moveSpeed.z * Time.deltaTime;
+            //Debug.Log("xVelocity" + xVelocity);
+            enemyTransform.position += new Vector3(xVelocity, 0, zVelocity);
+        
     }
+
+    public void Shot(float shellSpeed,Transform shotPos)
+    {
+            ShellView shell = shellController.GetShell();
+            shell.shellRigidbody.velocity = new Vector3(0, 0, shellSpeed);
+            shell.transform.position = shotPos.position;
+    }
+
+
 }

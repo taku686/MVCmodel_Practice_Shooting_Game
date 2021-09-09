@@ -4,38 +4,35 @@ using UnityEngine;
 
 public class PlayerView : CharacterView
 {
-    PlayerModel model;
-    GameController controller;
+    PlayerModel playerModel;
+    GameController gameController;
 
     public void Init(GameController controller, PlayerModel model)
     {
-        this.model = model;
-        this.controller = controller;
+        this.playerModel = model;
+        this.gameController = controller;
         this.Init();
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+        if (playerModel.OnClickButton())
         {
-            //   var taskMove = new TaskManager.Task(PlayerModel.MoveWaitTime, Move, TaskManager.Task.Type.Time);
-            //   this.controller.TaskManager.Add(taskMove);
-            Move();
+              var taskMove = new TaskManager.Task(PlayerModel.MoveWaitTime, Move, TaskManager.Task.Type.Time);
+              this.gameController.TaskManager.Add(taskMove);
         }
     }
 
-    public override GameObject CreateShell()
-    {
-        GameObject shell = base.CreateShell();
-        return shell;
-    }
 
+    //後でPlayerModelに移しておく
     public void Move()
     {
 
-        float xVelocity = Input.GetAxis("Horizontal") * model.playerSpeed * Time.deltaTime;
-        float zVelocity = Input.GetAxis("Vertical") * model.playerSpeed * Time.deltaTime;
-        Debug.Log("xVelocity" + xVelocity);
+        float xVelocity = Input.GetAxis("Horizontal") * playerModel.moveSpeed * Time.deltaTime;
+        float zVelocity = Input.GetAxis("Vertical") * playerModel.moveSpeed * Time.deltaTime;
+        //Debug.Log("xVelocity" + xVelocity);
         transform.position += new Vector3(xVelocity, 0, zVelocity);
     }
+
+
 }

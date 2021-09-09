@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3495703822754179640}
   - component: {fileID: 4856024340793013413}
   - component: {fileID: -8986073971440380868}
+  - component: {fileID: -5201703786625015441}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -125,9 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitEffect: {fileID: 0}
-  shellObj: {fileID: 2974501821017975901, guid: 5d269b5b60095e44d9eb479c01c3b46a,
-    type: 3}
-  shotPos: {fileID: 4324212138757685310}
   charaCollider: {fileID: 3495703822754179640}
 --- !u!114 &-5201703786625015441
 MonoBehaviour:
@@ -141,8 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3031f43c710d917469f394265eab026c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  shellSpeed: 10
+  shotPos: {fileID: 4324212138757685310}
+  gameController: {fileID: 0}
+  shellController: {fileID: 0}
+  shellSpeed: 30
   playerSpeed: 10
 --- !u!1 &6276011842519571663
 GameObject:
