@@ -7,6 +7,9 @@ TagManager:
   - Shell
   - ShellController
   - EnemyCreateController
+  - Canvas
+  - PlayerController
+  - CanvasController
   layers:
   - Default
   - TransparentFX

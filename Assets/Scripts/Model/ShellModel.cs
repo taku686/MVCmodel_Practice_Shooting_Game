@@ -23,19 +23,20 @@ public class ShellModel : MonoBehaviour
         
     }
 
-    public ShellView ShellCreate()
+    public ShellView CreateShell(List<ShellView> viewList)
     {
-        ShellView shell = Instantiate(shellPrefab,shellPrabParent).GetComponent<ShellView>();
-        shell.Init(shellController);
+        ShellView shellView = Instantiate(shellPrefab,shellPrabParent).GetComponent<ShellView>();
+        shellView.Init(shellController);
+        viewList.Add(shellView);
 
-        return shell;
+        return shellView;
     }
 
     public ShellView GetShell(List<ShellView> viewList)
     {
         if(viewList.Count == 0)
         {
-            return shellController.CreateShell();
+            return CreateShell(viewList);
         }
 
         foreach (var shellView in viewList.Where((sv) => sv.IsActive == false))
@@ -43,11 +44,12 @@ public class ShellModel : MonoBehaviour
             if (shellView == null)
             {
                 //Debug.Log("Shell生成");
-                return shellController.CreateShell();         
+                return CreateShell(viewList);         
             }
             else
             {
                 //Debug.Log("Shell返す");
+                viewList.Remove(shellView);
                 return shellView;
             } 
         }

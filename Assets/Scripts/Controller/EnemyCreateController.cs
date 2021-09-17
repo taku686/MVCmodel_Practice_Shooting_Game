@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class EnemyCreateController : BaseController
 {
+    public const float MoveWaitTime = 0f;
+    public const float ShotWaitTime = 0f;
+
     [SerializeField]
     private GameObject enemyObj;
     [SerializeField]
@@ -22,14 +24,10 @@ public class EnemyCreateController : BaseController
     private int strongShellSpeed;
     [SerializeField]
     private Vector3 strongEnemyMoveSpeed;
+    
+    public int deadEnemyCount = 1;
+    private GameController gameController;
 
-
-    private EnemyModel enemyModel;
-    public List<EnemyView> enemyViewList = new List<EnemyView>();
-//    public EnemyType enemyType;
-    private const float CreateWaitTime = 100f;
-    private float countTime=99;
-   
     public enum EnemyType
     {
         Weak,
@@ -38,63 +36,42 @@ public class EnemyCreateController : BaseController
         Boss,
     }
 
+    private EnemyModel enemyModel;
+    public List<EnemyView> enemyViewList = new List<EnemyView>();
+    private const float CreateWaitTime = 3f;
+    private float countTime=CreateWaitTime-1;
+   
+    
+
     public override void Init()
     {
         base.Init();
         enemyModel = GetComponent<EnemyModel>();
-        enemyModel.Init(this);
+        enemyModel.Init();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     public override void GameUpdate()
     {
+        if (!gameController.IsGameStart)
+        {
+            return;
+        }
         base.GameUpdate();
         countTime += Time.unscaledDeltaTime;
         if(countTime > CreateWaitTime)
         {
-            var taskEnemyCreate = new TaskManager.Task(0, TaskEnemyCreate, TaskManager.Task.Type.Time);
+            var taskEnemyCreate = new TaskManager.Task(0, EnemyCreate, TaskManager.Task.Type.Time);
             this.TaskManager.Add(taskEnemyCreate);
             countTime = 0f;
         }
     }
 
-    private void TaskEnemyCreate()
+    private void EnemyCreate()
     {
-        EnemyCreate(EnemyType.Weak);
+        enemyModel.EnemyCreate(EnemyType.Weak,weakShellSpeed,weakEnemyMoveSpeed,this,enemyViewList,enemyObj,enemyCreatePos);
     }
 
-    private void EnemyCreate(EnemyType enemyType)
-    {
-        EnemyView enemyView = Instantiate(this.enemyObj,EnemyCreatePos(),Quaternion.identity)
-                              .GetComponent<EnemyView>();
-
-        switch (enemyType)
-        {
-            case EnemyType.Weak:
-                enemyView.Init(this, this.enemyModel, weakShellSpeed, weakEnemyMoveSpeed,2);
-                break;
-            case EnemyType.Normal:
-                enemyView.Init(this, this.enemyModel, normalShellSpeed, normalEnemyMoveSpeed,1);
-                break;
-            case EnemyType.Strong:
-                enemyView.Init(this, this.enemyModel, strongShellSpeed, strongEnemyMoveSpeed,1);
-                break;
-            case EnemyType.Boss:
-                enemyView.Init(this, this.enemyModel, weakShellSpeed, weakEnemyMoveSpeed,2);
-                break;
-            default:
-                enemyView = null;
-                break;
-        }
-        enemyViewList.Add(enemyView);
-    }
-
-    private Vector3 EnemyCreatePos()
-    {
-        Vector3 pos = new Vector3(Random.Range((int)-enemyCreatePos.position.x-10, (int)enemyCreatePos.position.x+10),
-                                 enemyCreatePos.position.y,
-                                 enemyCreatePos.position.z
-                                 );
-        return pos;
-
-    }
+    
+  
 }

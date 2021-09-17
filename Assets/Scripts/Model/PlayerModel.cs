@@ -2,53 +2,58 @@
 
 public class PlayerModel : CharacterModel
 {
-    public const float ShotWaitTime = 0f;
-    public const float MoveWaitTime = 0f;
+   
 
-    private PlayerView playerView;    // プレイヤービュークラスの参照変数
-    private GameController gameController;
-    public int shellSpeed = 10;
-    public int moveSpeed = 10; 
-    private float clickWaitTime = 0.2f;
-    private float countTime;
+    private Vector3 adjustedValue = Vector3.one; 
+    private Vector3 bottomLeft; 
+    private Vector3 topRight;
+    private float playerCameraDistance;
+  
 
 
-    public void Init(GameController controller, PlayerView view,ShellController shellController)
+    public void Init()
     {
-        this.gameController = controller;
-        this.shellController = shellController;
-        this.playerView = view;
-        this.playerView.Init(controller, this);
+        this.shellController = GameObject.FindGameObjectWithTag("ShellController").GetComponent<ShellController>();
+        this.playerCameraDistance = transform.position.y - Camera.main.transform.position.y;
+        this.bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(1,1,playerCameraDistance))+adjustedValue;
+        this.topRight = Camera.main.ViewportToWorldPoint(new Vector3(0, 0,playerCameraDistance))-adjustedValue;      
     }
 
-    // 更新処理
-    public void Update()
+    public void Move(int moveSpeed,Transform transform)
     {
-        countTime += Time.unscaledDeltaTime;
-        // マウスが押された時、プレイヤー側の攻撃として実行する
-        if (Input.GetKey(KeyCode.Space) && countTime > clickWaitTime)
+        float xVelocity = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        float zVelocity = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+
+        //Debug.Log("xVelocity" + xVelocity);
+
+        transform.position += new Vector3(xVelocity, 0, zVelocity);
+
+        if(transform.position.x > topRight.x|| transform.position.x < bottomLeft.x|| transform.position.z > topRight.z|| transform.position.z < bottomLeft.z)
         {
-            var taskShot = new TaskManager.Task(ShotWaitTime, Shot, TaskManager.Task.Type.Time);
-            this.gameController.TaskManager.Add(taskShot);
-            countTime = 0;
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeft.x, topRight.x), 0, Mathf.Clamp(transform.position.z, bottomLeft.z, topRight.z));
         }
-
-
     }
 
-    public void Shot()
+    public void Shot(int shellSpeed,Material shellMaterial,Transform shotPos)
     {
-        ShellView shell = shellController.GetShell();
+        ShellView shell = shellController.GetShell(shellMaterial);
         //Debug.Log("Shell");
         //Debug.Log(shell == null);
         shell.shellRigidbody.velocity = new Vector3(0, 0, shellSpeed);
         shell.transform.position = shotPos.position;
     }
 
+    public GameObject CereatePlayer(GameObject playerObj,Transform createPos)
+    {
+        GameObject player = Instantiate(playerObj, createPos.position, Quaternion.identity);
+        return player;
+    }
+
     // 敗北処理
     public void Lose()
     {
-        playerView.Lose();
+        Debug.Log("Player死亡");
+        Destroy(this.gameObject);
     }
 
     public bool OnClickButton()

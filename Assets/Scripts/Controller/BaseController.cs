@@ -67,7 +67,7 @@ public class TaskManager
 
         // 各クラスから登録される実行関数
         public Action Action;
-        public Func<object> objectFuncion; //  使い方がよくわからない
+
 
         Type type;      // 実行タイプ 
         
@@ -77,7 +77,6 @@ public class TaskManager
         float coutTime; // 時間カウント
 
         public bool IsAction;   // 実行するか判定
-        public bool IsFunction;
         public bool IsRemove;   // タスクを破棄するか判定
 
         
@@ -98,25 +97,6 @@ public class TaskManager
             this.type = type;
             DataInit();
         }
-        
-        public Task(float time, Func<object> func, Type type = Type.Time)
-        {
-            this.objectFuncion = func;
-            this.runFlame = 0;
-            this.runTime = time;
-            this.type = type;
-            DataInit();
-        }
-
-        public Task(int flame, Func<object> func, Type type = Type.Flame)
-        {
-            this.objectFuncion = func;
-            this.runFlame = flame;
-            this.runTime = 0f;
-            this.type = type;
-            DataInit();
-        }
-       
 
         void DataInit()
         {
@@ -137,7 +117,6 @@ public class TaskManager
                     if (this.coutFlame >= this.runFlame)
                     {
                         this.IsAction = true;
-                        this.IsFunction = true;
                         this.IsRemove = true;
                     }
                     break;
@@ -147,14 +126,12 @@ public class TaskManager
                     if (this.coutTime >= this.runTime)
                     {
                         this.IsAction = true;
-                        this.IsFunction = true;
                         this.IsRemove = true;
                     }
                     break;
                 // 指定フレームが過ぎるまで実行し続ける
                 case Type.LoopFlame:
                     this.IsAction = true;
-                    this.IsFunction = true;
                     this.coutFlame += addFlame;
                     if (this.coutFlame >= this.runFlame)
                     {
@@ -164,7 +141,6 @@ public class TaskManager
                 // 指定時間が過ぎるまで実行し続ける
                 case Type.LoopTime:
                     this.IsAction = true;
-                    this.IsFunction = true;
                     this.coutTime += addTime;
                     if (this.coutTime >= this.runTime)
                     {
@@ -177,10 +153,6 @@ public class TaskManager
             if (IsAction&&Action != null)
             {
                 Action();
-            }
-            if (IsFunction && objectFuncion != null)
-            {
-                objectFuncion();
             }
         }
     }

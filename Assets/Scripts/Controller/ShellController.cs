@@ -34,18 +34,16 @@ public class ShellController :BaseController
         base.GameUpdate();
     }
 
-    public ShellView GetShell()
+    public ShellView GetShell(Material material)
     {
         ShellView shellView = shellModel.GetShell(viewList);
-        viewList.Remove(shellView);
+        shellView.meshRenderer.material.color = material.color;
         return shellView;
     }
 
-    public ShellView CreateShell()
+    public void CreateShell()
     {
-        ShellView shellView = shellModel.ShellCreate();
-        viewList.Add(shellView);
-        return shellView;
+      shellModel.CreateShell(viewList);
     }
 
 

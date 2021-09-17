@@ -5,33 +5,44 @@ using UnityEngine;
 public class PlayerView : CharacterView
 {
     PlayerModel playerModel;
-    GameController gameController;
+    [SerializeField]
+    private int shellSpeed;
+    [SerializeField]
+    private int moveSpeed;
+    private Material shellMaterial;
+    [SerializeField]
+    private Transform shotPos;
 
-    public void Init(GameController controller, PlayerModel model)
+    public void Init( PlayerModel model,int shellSpeed,int moveSpeed,Material shellMaterial)
     {
         this.playerModel = model;
-        this.gameController = controller;
+        this.shellSpeed = shellSpeed;
+        this.moveSpeed = moveSpeed;
+        this.shellMaterial = shellMaterial;
         this.Init();
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (playerModel.OnClickButton())
+        ShellView shellView = other.GetComponent<ShellView>();
+        if (shellView == null)
         {
-              var taskMove = new TaskManager.Task(PlayerModel.MoveWaitTime, Move, TaskManager.Task.Type.Time);
-              this.gameController.TaskManager.Add(taskMove);
+            return;
         }
+        playerModel.Lose();
     }
 
 
-    //後でPlayerModelに移しておく
+    public void Shot()
+    {
+        //Debug.Log("Shot");
+        playerModel.Shot(shellSpeed,shellMaterial,shotPos);
+    }
+
     public void Move()
     {
-
-        float xVelocity = Input.GetAxis("Horizontal") * playerModel.moveSpeed * Time.deltaTime;
-        float zVelocity = Input.GetAxis("Vertical") * playerModel.moveSpeed * Time.deltaTime;
-        //Debug.Log("xVelocity" + xVelocity);
-        transform.position += new Vector3(xVelocity, 0, zVelocity);
+        //Debug.Log("Move");
+        playerModel.Move(moveSpeed,transform);
     }
 
 

@@ -28,10 +28,6 @@ public class CameraView : MonoBehaviour
     {
         // カメラの初期位置を保持
         basePos = transform.localPosition;
-
-        // 一定時間後にカメラエフェクトを開始するタスクを追加
-        var taskHitCameraEffect = new TaskManager.Task(GameController.GameMatchTime, StartCameraEffect, TaskManager.Task.Type.Time);
-        this.controller.TaskManager.Add(taskHitCameraEffect);
     }
 
     // カメラ演出（カメラシェイク、ヒットスロー）を開始する

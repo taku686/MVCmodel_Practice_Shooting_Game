@@ -9,6 +9,7 @@ public class ShellView : MonoBehaviour
     private bool isActive = false;
     public ShellController shellController;
     public Rigidbody shellRigidbody;
+    public  Renderer meshRenderer;
 
     public bool IsActive { get => isActive; }
 
@@ -16,6 +17,7 @@ public class ShellView : MonoBehaviour
     {
         this.shellController = controller;
         shellRigidbody = GetComponent<Rigidbody>();
+        meshRenderer = GetComponent<Renderer>();
         Inactive();
     }
     private void OnBecameInvisible()

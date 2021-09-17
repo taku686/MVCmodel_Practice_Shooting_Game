@@ -10,6 +10,7 @@ public class EnemyView : CharacterView
     public float timeCount;
     [SerializeField]
     Transform shotPos;
+    private CanvasView canvasView;
 
     public void Init(EnemyCreateController enemyCreateController,EnemyModel enemyModel,int shellSpeed,Vector3 moveSpeed,float shotWaitTime)
     {
@@ -18,16 +19,18 @@ public class EnemyView : CharacterView
         this.shellSpeed = shellSpeed;
         this.moveSpeed = moveSpeed;
         this.shotWaitTime = shotWaitTime;
+        this.canvasView = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasView>();
     }
 
     private void Update()
     {
+        //Debug.Log("活きてますよ");
         timeCount += Time.unscaledDeltaTime;
-        var taskMove = new TaskManager.Task(PlayerModel.MoveWaitTime, Move, TaskManager.Task.Type.Time);
+        var taskMove = new TaskManager.Task(EnemyCreateController.MoveWaitTime, Move, TaskManager.Task.Type.Time);
         this.enemyCreateController.TaskManager.Add(taskMove);
         if(timeCount > this.shotWaitTime)
         {
-            var taskShot = new TaskManager.Task(PlayerModel.ShotWaitTime, Shot, TaskManager.Task.Type.Time);
+            var taskShot = new TaskManager.Task(EnemyCreateController.ShotWaitTime, Shot, TaskManager.Task.Type.Time);
             this.enemyCreateController.TaskManager.Add(taskShot);
             timeCount = 0f;
         }
@@ -43,8 +46,23 @@ public class EnemyView : CharacterView
         enemyModel.Shot(shellSpeed,shotPos);
     }
 
-    public void Die()
+    private void Dead()
     {
+        enemyModel.Die(this.gameObject);
+       int deadEnemyCount= enemyCreateController.deadEnemyCount++;
+        //Debug.Log(deadEnemyCount);
+        canvasView.DeadEnemy(deadEnemyCount);
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+      ShellView shellView =  other.GetComponent<ShellView>();
+
+        if(shellView == null)
+        {
+            return;
+        }
+        Dead();
+       
     }
 }
