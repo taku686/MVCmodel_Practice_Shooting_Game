@@ -10,17 +10,16 @@ public class CanvasController : BaseController
     [SerializeField] Text countDownText;
     [SerializeField]public Button StartButton;
     private CanvasModel canvasModel;
+    private CanvasView canvasView;
     private RectTransform countDownTextTransform;
-    private GameController gameController;
     private int gameStartWaitTime = 3;
 
     public override void Init()
     {
         base.Init();
         canvasModel = GetComponent<CanvasModel>();
+        canvasView = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasView>();
         countDownTextTransform = countDownText.gameObject.GetComponent<RectTransform>();
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-       
     }
 
     public IEnumerator CountDown(Action<bool> callback)
@@ -30,5 +29,10 @@ public class CanvasController : BaseController
         var corutine = canvasModel.CountDownTimer(countDownText, this.gameStartWaitTime, countDownTextTransform, (r => result = r));
         yield return StartCoroutine(corutine);
         callback(result);
+    }
+
+    public void DeadEnemy(int deadEnemyCount)
+    {
+        canvasView.DeadEnemy(deadEnemyCount);
     }
 }

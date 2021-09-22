@@ -16,7 +16,6 @@ public class CanvasModel : MonoBehaviour
           yield  break;
         }
 
-
         while (count > 0)
         {
             DOTween.Sequence()
@@ -56,7 +55,5 @@ public class CanvasModel : MonoBehaviour
            });
         callback(true);
         yield return new WaitForSeconds(1);
-
-
     }
 }

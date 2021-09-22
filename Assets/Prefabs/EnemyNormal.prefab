@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 3495703822754179641}
   - component: {fileID: 3495703822754179640}
   - component: {fileID: 4856024340793013413}
-  - component: {fileID: -7244176908034622596}
-  - component: {fileID: -5768812167256326663}
+  - component: {fileID: 7307209486744691320}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyNormal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fc7d8832d3e219243ad78ec9b3ddd2c0, type: 2}
+  - {fileID: 2100000, guid: df86cb4e85d29d844b219a82e83e948f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,7 +112,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &-7244176908034622596
+--- !u!114 &7307209486744691320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,22 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3495703822754179643}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5060eb9e95baca5418f027356fc921fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotPos: {fileID: 0}
-  shellController: {fileID: 0}
-  shellMaterial: {fileID: 2100000, guid: fc7d8832d3e219243ad78ec9b3ddd2c0, type: 2}
---- !u!114 &-5768812167256326663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3495703822754179643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cceb42e29c07d3c428ee1a1df55869c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 0274b30311a252a408152ae9b7450e46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HitEffect: {fileID: 0}

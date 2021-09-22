@@ -44,6 +44,7 @@ public class GameController : BaseController
         if (isGameStart)
         {
             playerController.GameStart();
+            //    enemyCreateController.GetPlayerTransform(playerController.playerView.transform);
         }
     }
 

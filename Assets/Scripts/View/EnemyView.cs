@@ -1,33 +1,35 @@
 ﻿using UnityEngine;
 
-public class EnemyView : CharacterView
+public class EnemyView : CharacterView,EnemyModel.Move
 {
-    EnemyModel enemyModel;
-    EnemyCreateController enemyCreateController;
+    protected EnemyModel enemyModel;
+    protected EnemyCreateController enemyCreateController;
     public int shellSpeed;
     public Vector3 moveSpeed;
     public float shotWaitTime;
     public float timeCount;
     [SerializeField]
-    Transform shotPos;
-    private CanvasView canvasView;
+    protected Transform shotPos;
+    protected CanvasController canvasController;
+    protected EnemyCreateController.EnemyType enemyType;
 
-    public void Init(EnemyCreateController enemyCreateController,EnemyModel enemyModel,int shellSpeed,Vector3 moveSpeed,float shotWaitTime)
+    public virtual void Init(EnemyCreateController enemyCreateController,EnemyModel enemyModel,int shellSpeed,Vector3 moveSpeed,float shotWaitTime,EnemyCreateController.EnemyType enemyType)
     {
         this.enemyModel = enemyModel;
         this.enemyCreateController = enemyCreateController;
         this.shellSpeed = shellSpeed;
         this.moveSpeed = moveSpeed;
         this.shotWaitTime = shotWaitTime;
-        this.canvasView = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasView>();
+        this.canvasController = GameObject.FindGameObjectWithTag("CanvasController").GetComponent<CanvasController>();
+        this.enemyType = enemyType;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         //Debug.Log("活きてますよ");
-        timeCount += Time.unscaledDeltaTime;
-        var taskMove = new TaskManager.Task(EnemyCreateController.MoveWaitTime, Move, TaskManager.Task.Type.Time);
+        var taskMove = new TaskManager.Task(EnemyCreateController.MoveWaitTime, EnemyMove, TaskManager.Task.Type.Time);
         this.enemyCreateController.TaskManager.Add(taskMove);
+        timeCount += Time.unscaledDeltaTime;
         if(timeCount > this.shotWaitTime)
         {
             var taskShot = new TaskManager.Task(EnemyCreateController.ShotWaitTime, Shot, TaskManager.Task.Type.Time);
@@ -36,22 +38,27 @@ public class EnemyView : CharacterView
         }
     }
 
-    private void Move()
+    private void EnemyMove()
     {
-        enemyModel.Move(moveSpeed, transform);
+        Move(moveSpeed, this.transform);
+    }
+
+    public virtual void Move(Vector3 moveSpeed, Transform enemyTransform)
+    {
+
     }
 
     private void Shot()
     {
-        enemyModel.Shot(shellSpeed,shotPos);
+        enemyModel.Shot(shellSpeed, shotPos);
     }
 
     private void Dead()
     {
         enemyModel.Die(this.gameObject);
-       int deadEnemyCount= enemyCreateController.deadEnemyCount++;
+        int deadEnemyCount = enemyCreateController.deadEnemyCount++;
         //Debug.Log(deadEnemyCount);
-        canvasView.DeadEnemy(deadEnemyCount);
+        canvasController.DeadEnemy(deadEnemyCount);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,6 +70,7 @@ public class EnemyView : CharacterView
             return;
         }
         Dead();
-       
     }
+
+  
 }

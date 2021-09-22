@@ -9,7 +9,11 @@ public class EnemyCreateController : BaseController
     public const float ShotWaitTime = 0f;
 
     [SerializeField]
-    private GameObject enemyObj;
+    private GameObject enemyZakoObj;
+    [SerializeField]
+    private GameObject enemyNormalObj;
+    [SerializeField]
+    private GameObject enemyStrongObj;
     [SerializeField]
     private Transform enemyCreatePos;
     [SerializeField]
@@ -69,7 +73,25 @@ public class EnemyCreateController : BaseController
 
     private void EnemyCreate()
     {
-        enemyModel.EnemyCreate(EnemyType.Weak,weakShellSpeed,weakEnemyMoveSpeed,this,enemyViewList,enemyObj,enemyCreatePos);
+      //  if(deadEnemyCount %3== 0)
+      //  {
+            enemyModel.EnemyCreate(EnemyType.Strong, strongShellSpeed, strongEnemyMoveSpeed, this, enemyViewList, enemyStrongObj, enemyCreatePos);
+        /*
+        }
+        else if(deadEnemyCount % 3 == 1)
+        {
+            enemyModel.EnemyCreate(EnemyType.Weak, weakShellSpeed, weakEnemyMoveSpeed, this, enemyViewList, enemyZakoObj, enemyCreatePos);
+        }
+        else if (deadEnemyCount % 3 == 2)
+        {
+            enemyModel.EnemyCreate(EnemyType.Normal, normalShellSpeed, normalEnemyMoveSpeed, this, enemyViewList, enemyNormalObj, enemyCreatePos);
+        }
+        */
+    }
+
+    public void GetPlayerTransform(Transform playerTransform)
+    {
+      //  enemyModel.playerTransform = playerTransform;
     }
 
     

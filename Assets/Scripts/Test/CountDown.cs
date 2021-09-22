@@ -8,9 +8,6 @@ public class CountDown : MonoBehaviour
 {
     [SerializeField] Text countDownText;
     RectTransform textTransform;
-    int count = 3;
-    int WaitForOneSecond;
-    float timeCount = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +15,7 @@ public class CountDown : MonoBehaviour
         StartCoroutine(Hoge());
     }
 
-    private void Update()
-    {
-        timeCount += Time.unscaledDeltaTime;
-    }
+   
 
     IEnumerator Hoge()
     {

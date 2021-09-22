@@ -120,7 +120,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: b605857572b06da49a6e5ca3aa64c0be, type: 2}
 --- !u!1 &118524193
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,16 +646,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e7f5f7b57e1f1458b8aa38c6cb392e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyObj: {fileID: 3495703822754179643, guid: aac5ce6fb65298c4c9df3e8e95d3cc91,
+  enemyZakoObj: {fileID: 3495703822754179643, guid: aac5ce6fb65298c4c9df3e8e95d3cc91,
+    type: 3}
+  enemyNormalObj: {fileID: 3495703822754179643, guid: 259ee48cf855f54499dabbd18e79665f,
+    type: 3}
+  enemyStrongObj: {fileID: 3495703822754179643, guid: 4d6c716666e48db43b99794b88f1f42c,
     type: 3}
   enemyCreatePos: {fileID: 1887196929}
   weakShellSpeed: -5
   weakEnemyMoveSpeed: {x: 0, y: 0, z: -2}
   normalShellSpeed: -15
-  normalEnemyMoveSpeed: {x: 0, y: 0, z: -3}
+  normalEnemyMoveSpeed: {x: 0.05, y: 0, z: -3}
   strongShellSpeed: -20
   strongEnemyMoveSpeed: {x: 0, y: 0, z: -5}
-  deadEnemyCount: 1
+  deadEnemyCount: 3
   enemyViewList: []
 --- !u!114 &333023733
 MonoBehaviour:
@@ -671,6 +675,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shellController: {fileID: 0}
   shellMaterial: {fileID: 2100000, guid: fc7d8832d3e219243ad78ec9b3ddd2c0, type: 2}
+  playerTransform: {fileID: 0}
+  endDir: {x: 0, y: 0, z: 0}
 --- !u!1 &375157769
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +694,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &375157770
 MeshCollider:
@@ -905,7 +911,7 @@ MonoBehaviour:
     type: 3}
   playerCreatePos: {fileID: 1329081045}
   moveSpeed: 10
-  shellSpeed: 30
+  shellSpeed: 15
   shellMaterial: {fileID: 2100000, guid: 924eefe7ab703374289b12ab245c1062, type: 2}
   playerView: {fileID: 0}
 --- !u!114 &780035185
@@ -985,7 +991,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -1402,7 +1408,6 @@ GameObject:
   - component: {fileID: 1887196929}
   - component: {fileID: 1887196932}
   - component: {fileID: 1887196931}
-  - component: {fileID: 1887196930}
   m_Layer: 0
   m_Name: EnemyCreater
   m_TagString: Untagged
@@ -1422,21 +1427,8 @@ Transform:
   m_LocalScale: {x: 20, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1887196930
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887196928}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1887196931
 MeshRenderer:
   m_ObjectHideFlags: 0

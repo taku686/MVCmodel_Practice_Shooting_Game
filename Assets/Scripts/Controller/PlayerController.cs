@@ -21,8 +21,8 @@ public class PlayerController :BaseController
     private Material shellMaterial;
 
     private PlayerModel playerModel;
-    [SerializeField]
-    private PlayerView playerView;
+   
+    public PlayerView playerView;
     private float clickWaitTime = 0.2f;
     private float countTime;
     private GameController gameController;
@@ -73,8 +73,8 @@ public class PlayerController :BaseController
     {
         GameObject player = playerModel.CereatePlayer(playerObj, playerCreatePos);
         playerView = player.GetComponent<PlayerView>();
-        Debug.Log("PlayerView");
-        Debug.Log(playerView == null);
-        playerView.Init(playerModel, shellSpeed, moveSpeed,shellMaterial);    
+        //    Debug.Log("PlayerView");
+        //   Debug.Log(playerView == null);
+        playerView.Init(playerModel, shellSpeed, moveSpeed, shellMaterial);
     }
 }
